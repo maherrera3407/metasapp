@@ -7,11 +7,11 @@ function Principal({children}) {
       <div className={estilos.Principal}>
       <aside className={estilos.aside}>
         <Vinculo 
-        href='/lista' 
+        to='/lista' 
         texto="Lista de metas"
         Icono={ListaSVG}/>
         <Vinculo 
-        href='/crear' 
+        to='/crear' 
         texto="Nueva meta"
         Icono={NuevaSVG}/>
       </aside>
