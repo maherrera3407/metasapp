@@ -1,6 +1,8 @@
 
+import { useNavigate } from "react-router-dom";
+import { Contexto } from "../servicios/Memoria";
 import estilos from "./Detalles.module.css"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 function Detalles(){
     const [form, setForm]= useState({
         Detalles:'',
@@ -10,17 +12,26 @@ function Detalles(){
         meta:52,
         plazo:'01/01/2023',
         completado: 0
-    })
+    });
+
+    const [estado, enviar ] = useContext( Contexto);
+
     const{ Detalles,eventos,periodo,icono,meta,plazo,completado}=form;
+
     const onChange=(event, prop) => {
         setForm(estado => ({...estado,[prop]: event.target.value}));
     }
+
     useEffect(() => {
-       // console.log(form);
+       //console.log(form);
     },[form]);
 
+    const navegar =useNavigate();
+
     const crear = async () => {
-        console.log(form);
+        //console.log(form);
+        enviar({tipo: 'crear', meta: form });
+        navegar('/lista');
     }
     const frecuencias=['dia','mes','semana','año'];
     const iconos =['🏃','📔','✈️','😈','💃','🎮']
