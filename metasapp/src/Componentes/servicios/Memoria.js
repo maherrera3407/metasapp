@@ -1,5 +1,5 @@
  import {createContext, useReducer } from "react";
- import { useContext } from "react";
+
  const listataMock=[{
     'id':'1',
     'detalles':'correr por 30 minutos',
@@ -57,9 +57,29 @@ function reductor(estado, accion){
             };
             return nuevoEstado;
         };
-     }
-
+        case 'actualizar': {
+            const id = accion.meta.id;
+                estado.objetos[id]={
+                   ...estado.objetos[id],
+                   ...accion.meta 
+                }; 
+                const nuevoEstado={...estado}; 
+                return nuevoEstado;             
+        }; 
+        case 'borrar': {
+            const id = accion.id;
+            const nueevoOrden = estado.orden.filter(item => item !== id);
+            delete estado.objetos[id];
+            const nuevoEstado = {
+                orden:nueevoOrden,
+                objetos:estado.objetos
+            };
+            return nuevoEstado;         
+        }; 
+    };
 }
+
+
 
 const metas = reductor(estadoInicial, {tipo: 'colocar', metas: listataMock});
 

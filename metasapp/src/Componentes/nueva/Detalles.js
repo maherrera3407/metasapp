@@ -1,38 +1,62 @@
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Contexto } from "../servicios/Memoria";
 import estilos from "./Detalles.module.css"
 import { useEffect, useState, useContext } from "react";
 function Detalles(){
-    const [form, setForm]= useState({
-        Detalles:'',
-        eventos:1,
-        periodo:'semana',
-        icono:'😈',
-        meta:52,
-        plazo:'01/01/2023',
-        completado: 0
-    });
+
+    const {id} =useParams();
+
+    const [form, setForm] = useState({
+        detalles: "",
+        eventos: 1,
+        periodo: "semana",
+        icono: "🏃‍♂️",
+        meta: 52,
+        plazo: "2030-01-01",
+        completado: 0,
+      });
 
     const [estado, enviar ] = useContext( Contexto);
 
-    const{ Detalles,eventos,periodo,icono,meta,plazo,completado}=form;
+    const { detalles, eventos, periodo, icono, meta, plazo, completado } = form;
 
     const onChange=(event, prop) => {
         setForm(estado => ({...estado,[prop]: event.target.value}));
     }
 
     useEffect(() => {
-       //console.log(form);
-    },[form]);
+        const metaMemoria = estado.objetos[id];
+        if(!id) return;
+        if(!metaMemoria){
+         return navegar('/404');
+        }
+         setForm(metaMemoria);
+     },[id]);
 
     const navegar =useNavigate();
 
-    const crear = async () => {
+    const crear = () => {
         //console.log(form);
         enviar({tipo: 'crear', meta: form });
         navegar('/lista');
     }
+
+    const actualizar = () =>{
+        enviar({tipo:'actualizar', meta: form});
+        navegar('/lista');
+    }
+
+    const borrar = () =>{
+        enviar({tipo: 'borrar', id});
+        navegar('/lista');
+    }
+
+    const cancelar = () =>{
+        navegar('/lista')
+    }
+
+
     const frecuencias=['dia','mes','semana','año'];
     const iconos =['🏃','📔','✈️','😈','💃','🎮']
     return(
@@ -43,8 +67,8 @@ function Detalles(){
                     <input 
                     className="input"
                     placeholder="ej. 52 caminatas"
-                    value={Detalles}
-                    onChange={e => onChange(e,'Detalles')}/>
+                    value={detalles}
+                    onChange={e => onChange(e,'detalles')}/>
                 </label>
                 <label className="label">
                     ¿Con que frecuencias deseas cumplir tu meta?<span>(ej. 1 vez a la semana)</span>
@@ -99,11 +123,25 @@ function Detalles(){
                 </label>
              </form>
              <div className={estilos.botones}>
-                <button 
+                {!id && <button 
                     className="boton boton--negro"
                     onClick={crear}>
-                Crear</button>
-                <button className="boton boton--gris">Cancelar</button>  
+                Crear</button>}
+
+                {id && <button 
+                    className="boton boton--negro"
+                    onClick={actualizar}>
+                Actualizar</button>}
+
+                {id && <button 
+                    className="boton boton--rojo"
+                    onClick={borrar}>
+                Borrar</button>}
+
+                <button className="boton boton--gris"
+                    onClick={cancelar}
+                >Cancelar</button>  
+
              </div>
         </div>
     );
