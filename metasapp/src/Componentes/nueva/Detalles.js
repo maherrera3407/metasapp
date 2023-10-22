@@ -24,17 +24,18 @@ function Detalles(){
     const onChange=(event, prop) => {
         setForm(estado => ({...estado,[prop]: event.target.value}));
     }
-
+    const navegar =useNavigate();
+    const metaMemoria = estado.objetos[id];
     useEffect(() => {
-        const metaMemoria = estado.objetos[id];
+        
         if(!id) return;
         if(!metaMemoria){
          return navegar('/404');
         }
          setForm(metaMemoria);
-     },[id]);
+     },[id, metaMemoria, navegar]);
 
-    const navegar =useNavigate();
+    
 
     const crear = () => {
         //console.log(form);
@@ -82,7 +83,7 @@ function Detalles(){
                         className="input"
                         value={periodo}
                         onChange={e => onChange(e,'periodo')}>
-                            {frecuencias.map(opcion =><option value={opcion}>{opcion}</option>)}
+                            {frecuencias.map(opcion =><option key={opcion} value={opcion}>{opcion}</option>)}
                         </select>
                     </div>
                 </label>
@@ -118,7 +119,7 @@ function Detalles(){
                     className="input"
                     value={icono}
                     onChange={e => onChange(e,'icono')}>                    
-                        {iconos.map(opcion =><option value={opcion}>{opcion}</option>)}
+                        {iconos.map(opcion => <option key={opcion} value={opcion}>{opcion}</option>)}
                     </select>
                 </label>
              </form>
