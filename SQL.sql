@@ -10,17 +10,18 @@ CREATE TABLE cuentas (
 
 SELECT * FROM cuentas;
 
-CREATE TYPE plazo AS ENUM ('día', 'semana','mes', 'año');
+CREATE TYPE periodo AS ENUM ('día', 'semana','mes', 'año');
 
 CREATE TABLE metas (
   id SERIAL PRIMARY KEY,
   usuario_id int NOT NULL,
   detalles text NOT NULL,
-  plazo plazo NOT NULL,
-  frecuencia int NOT NULL,
-  ícono text,
-  meta int,
-  fecha_límite timestamp DEFAULT now()
+  periodo periodo NOT NULL,
+  eventos int NOT NULL,
+  icono text,
+  meta int NOT NULL,
+  plazo date DEFAULT current_date,
+  completado int
 );
 
 SELECT * FROM metas;
@@ -42,17 +43,18 @@ INSERT INTO cuentas (usuario, hash, sal, avatar) VALUES
 	'findigd0ry',
 	'avatars/0000001.jpg'
 );
-
-INSERT INTO metas (usuario_id, detalles, plazo, frecuencia, ícono, meta, fecha_límite)
+ 
+INSERT INTO metas (usuario_id, detalles, periodo, eventos, ícono, meta, plazo,completado)
 VALUES
 (
    1,
    'meta 3',
-   'semana',
-   3,
+   'día',
+   6,
    '✈️',
    100,
-   '2030-01-01 00:00:00'
+   '2030-01-01',
+   1
 );
 
 '🏃','📔','✈️','😈','💃','🎮'
@@ -62,6 +64,7 @@ INSERT INTO logros (meta_id, logro, nota) VALUES
   
 UPDATE logros SET logro=4 WHERE ID = 1;
 UPDATE metas SET ícono='😈' WHERE ID = 1;
+
 
 
 
