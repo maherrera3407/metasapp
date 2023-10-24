@@ -19,7 +19,7 @@ function App() {
       enviar({ tipo: 'colocar', metas });
     };
     obtenerMetas();
-  }, []);
+  }, [enviar]);
   
   return (
     <Routes>
