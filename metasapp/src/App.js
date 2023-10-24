@@ -5,8 +5,22 @@ import Lista from './Componentes/lista/lista';
 import Detalles from './Componentes/nueva/Detalles';
 import NoEncontrado from './Componentes/compartidos/NoEncontrado';
 import Modal from './Componentes/compartidos/Modal';
+import { useContext, useEffect } from 'react';
+import { Contexto } from './Componentes/servicios/Memoria';
+import { pedirMetas } from './Componentes/servicios/Pedidos';
 
 function App() {
+
+  const [,enviar] = useContext(Contexto);
+
+  useEffect(() => {
+    const obtenerMetas = async () => {
+      const metas = await pedirMetas(); 
+      enviar({ tipo: 'colocar', metas });
+    };
+    obtenerMetas();
+  }, []);
+  
   return (
     <Routes>
       <Route path='/' element={<Layout/>}>

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Contexto } from "../servicios/Memoria";
 import estilos from "./Detalles.module.css"
 import { useEffect, useState, useContext } from "react";
+import { BorrarMeta, actualizarMeta, crearMeta} from "../servicios/Pedidos";
 function Detalles(){
 
     const {id} =useParams();
@@ -37,19 +38,21 @@ function Detalles(){
 
     
 
-    const crear = () => {
-        //console.log(form);
-        enviar({tipo: 'crear', meta: form });
+    const crear = async () => {
+        const nuevaMeta = await crearMeta();
+        enviar({tipo: 'crear', meta: nuevaMeta });
         navegar('/lista');
     }
 
-    const actualizar = () =>{
-        enviar({tipo:'actualizar', meta: form});
+    const actualizar = async () =>{
+        const metaActualizada = await actualizarMeta();
+        enviar({tipo:'actualizar', meta: metaActualizada});
         navegar('/lista');
     }
 
-    const borrar = () =>{
-        enviar({tipo: 'borrar', id});
+    const borrar = async () =>{
+        const idBorrada = await BorrarMeta();
+        enviar({tipo: 'borrar', id: idBorrada});
         navegar('/lista');
     }
 
