@@ -39,20 +39,20 @@ function Detalles(){
     
 
     const crear = async () => {
-        const nuevaMeta = await crearMeta();
+        const nuevaMeta = await crearMeta(form);
         enviar({tipo: 'crear', meta: nuevaMeta });
         navegar('/lista');
     }
 
     const actualizar = async () =>{
-        const metaActualizada = await actualizarMeta();
+        const metaActualizada = await actualizarMeta(form);
         enviar({tipo:'actualizar', meta: metaActualizada});
         navegar('/lista');
     }
 
     const borrar = async () =>{
-        const idBorrada = await BorrarMeta();
-        enviar({tipo: 'borrar', id: idBorrada});
+        await BorrarMeta(form.id);
+        enviar({tipo: 'borrar', id: form.id});
         navegar('/lista');
     }
 
@@ -61,7 +61,7 @@ function Detalles(){
     }
 
 
-    const frecuencias=['dia','mes','semana','año'];
+    const frecuencias=['día', 'semana','mes', 'año'];
     const iconos =['🏃','📔','✈️','😈','💃','🎮']
     return(
         <div className="tarjeta">
